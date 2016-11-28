@@ -1,0 +1,15 @@
+<?php
+$debugEnabled = false;
+
+$recaptchaEnabled = false;
+function recaptchaSiteKey(){
+    return "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+}
+function recaptchaSecret(){
+    return "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+}
+
+if ($debugEnabled) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+}
