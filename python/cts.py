@@ -3,6 +3,7 @@ import json
 import requests
 import xml.etree.ElementTree as ET
 from html import unescape
+from OpenSSL import crypto
 
 debug = False
 
@@ -89,3 +90,26 @@ def full_search(pattern):
     print("Done downloading search results. Returning all matched certs in PEM.")
     return search_result
 
+
+def parse_single_cert_for_dns_names(cert_pem):
+    dns_names = {}
+    cert = crypto.load_certificate(crypto.FILETYPE_PEM, cert_pem)
+    subject = cert.get_subject()
+    dns_names[subject.CN] = True
+    ext_count = cert.get_extension_count()
+    for i in range(ext_count):
+        ext_str = str(cert.get_extension(i))
+        if "DNS:" in ext_str:
+            splited_names = ext_str.split(",")
+            for x in splited_names:
+                dns_names[x.strip()[4:]] = True
+    return dns_names
+
+def parse_certs_for_dns_names(certs):
+    print("Starting parsing certs for DNS names")
+    result = {}
+    for single_cert in certs:
+        single_result = parse_single_cert_for_dns_names(single_cert)
+        result = {**result, **single_result} # the new jazz in Python 3.5. Replace this if you need to be backwards compatible.
+    print("Finished parsing certs for DNS names")
+    return result
