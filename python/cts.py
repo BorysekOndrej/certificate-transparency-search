@@ -75,3 +75,17 @@ def full_search_via_enumerating(id_list):
         certs.append(req_response)
     return certs
 
+def full_search(pattern):
+    print("Starting full search")
+    print("Checking if the number of matched certs is low enough for quick search")
+    quick_search_result = quick_search(pattern)
+    print ("There is", str(len(quick_search_result[1])), "of them," , end=" ")
+    if len(quick_search_result[1]) < 1000:
+        print ("that is low enough. Searching via RSS feed of crt.sh")
+        search_result = full_search_via_rss(pattern)
+    else:
+        print ("that is too much. Searching via parsing donwloading single certs on crt.sh")
+        search_result = full_search_via_enumerating(quick_search_result[1])
+    print("Done downloading search results. Returning all matched certs in PEM.")
+    return search_result
+
