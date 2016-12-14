@@ -113,3 +113,18 @@ def parse_certs_for_dns_names(certs):
         result = {**result, **single_result} # the new jazz in Python 3.5. Replace this if you need to be backwards compatible.
     print("Finished parsing certs for DNS names")
     return result
+
+def search_for_subdomains(domain):
+    certs = full_search("%."+domain)
+    domain_names = sorted(parse_certs_for_dns_names(certs))
+    result = []
+    for single_domain in domain_names:
+        if single_domain.endswith("."+domain):
+            result.append(single_domain)
+    return result
+
+
+if __name__ == "__main__":
+    domain = "borysek.net"
+    answer = search_for_subdomains(domain)
+    print(answer)
