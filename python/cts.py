@@ -56,7 +56,22 @@ def full_search_via_rss(pattern = ""):
         div_end_pos = node_text.find("</div>")
         cert_text = node_text[div_start_pos:div_end_pos]
         cert_text = cert_text.replace("<br>", "\n")
+        #print(cert_text)
         certs.append(cert_text)
     return list(set(certs))
 
+
+def full_search_via_enumerating(id_list):
+    certs = []
+    for single_id in id_list:
+        req_url = "https://crt.sh/?d="+str(single_id)
+        print("!", req_url)
+        req = requests.get(req_url)
+        if req.status_code != 200:
+            print("! Request for full search via RSS failed.")
+            print("! Possible problems: network issues or too many certs match pattern.")
+            exit(1)
+        req_response = req.text
+        certs.append(req_response)
+    return certs
 
