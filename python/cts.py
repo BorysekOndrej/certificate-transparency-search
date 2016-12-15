@@ -11,7 +11,7 @@ silent = False
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description='arg parser test1',
+        description='If something is unclear, check the source code. ;)',
     )
     parser.add_argument('-d', '--domain', type=str, required=True, help="Search for this domain name")
     parser.add_argument('-q', '--quick', action="store_true", default=False, help="Quick search only")
