@@ -9,6 +9,7 @@ import argparse
 
 silent = False
 
+
 def parse_args():
     parser = argparse.ArgumentParser(
         description='If something is unclear, check the source code. ;)',
@@ -19,12 +20,14 @@ def parse_args():
     parser.add_argument('-s', '--silent', action="store_true", default=False, help="Silence progress output.")
     return parser.parse_args()
 
+
 def filter_only_subdomains(domain, candidates):
     result = []
     for single_domain in candidates:
         if single_domain.endswith("."+domain):
             result.append(single_domain)
     return result
+
 
 def quick_search(pattern):
     subdomains = {}
@@ -136,17 +139,21 @@ def parse_certs_for_dns_names(certs):
         print("Finished parsing certs for DNS names")
     return result
 
+
 def search_for_linked(domain):
     certs = full_search("%."+domain)
     return sorted(parse_certs_for_dns_names(certs))
+
 
 def search_for_subdomains(domain):
     domain_names = search_for_linked(domain)
     return filter_only_subdomains(domain, domain_names)
 
-def output_list(lst): # modify this to alter output format
+
+def output_list(lst):  # modify this to alter output format
     for x in lst:
         print(x)
+
 
 args = parse_args()
 domain = args.domain
