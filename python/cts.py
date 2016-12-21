@@ -155,16 +155,17 @@ def output_list(lst):  # modify this to alter output format
         print(x)
 
 
-args = parse_args()
-domain = args.domain
-silent = args.silent
-if args.quick:
-    if args.limitsubonly:
-        output_list(quick_search_for_subdomains(domain))
+if __name__ == "__main__":
+    args = parse_args()
+    domain = args.domain
+    silent = args.silent
+    if args.quick:
+        if args.limitsubonly:
+            output_list(quick_search_for_subdomains(domain))
+        else:
+            output_list(quick_search_for_linked(domain))
     else:
-        output_list(quick_search_for_linked(domain))
-else:
-    if args.limitsubonly:
-        output_list(search_for_subdomains(domain))
-    else:
-        output_list(search_for_linked(domain))
+        if args.limitsubonly:
+            output_list(search_for_subdomains(domain))
+        else:
+            output_list(search_for_linked(domain))
